@@ -1,7 +1,5 @@
 package com.bigdata.mykafka;
 
-
-
 import kafka.producer.Partitioner;
 import kafka.utils.VerifiableProperties;
 import org.apache.log4j.Logger;
