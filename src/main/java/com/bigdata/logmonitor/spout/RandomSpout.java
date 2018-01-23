@@ -133,6 +133,7 @@ public class RandomSpout extends BaseRichSpout{
 
         //从list中随机抽取一条发送
         String line = list.get( new Random().nextInt(list.size()));
+        System.out.println("发送数据：" + line);
 
         this.spoutOutputCollector.emit(new Values(line));
 
@@ -141,7 +142,6 @@ public class RandomSpout extends BaseRichSpout{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
     }
 
     @Override

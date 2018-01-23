@@ -1,29 +1,30 @@
-import com.bigdata.logmonitor.bean.Record;
-import com.bigdata.logmonitor.utils.Monitorhandler;
+import org.junit.Test;
 import redis.clients.jedis.Jedis;
 
 import java.util.List;
 
 public class test {
+
     public static void main(String[] args) {
-        Record record = new Record();
-        record.setId(1);
-        record.setAppId(01);
-        record.setIsEmail(1);
+        Jedis jedis = new Jedis("centos01",6379);
+        //jedis.del("record");
 
-        Monitorhandler.save(record);
-
-        Jedis jedis = new Jedis("127.0.0.1",6379);
-
-        String response = jedis.ping();
-
-        System.out.println(response);
-
-        List<String> records = jedis.lrange("record", 0, -1);
-        for (String s:records
-             ) {
+        List<String> record = jedis.lrange("record", 0, -1);
+        for (String s:record){
             System.out.println(s);
         }
+    }
 
+    @Test
+    public void testString(){
+        String s = "1$$$$$2";
+
+        String[] ss = s.split("[$][$][$][$][$]");
+
+        System.out.println(ss.length);
+        for (String sss:ss
+             ) {
+            System.out.println(sss);
+        }
     }
 }

@@ -1,32 +1,49 @@
 package com.bigdata.logmonitor.bean;
 
+import java.util.Date;
 
-/**
- * 定义规则
- */
 public class Rule {
-    private int id;//规则编号
-    private String name;//规则名称
-    private String keyword;//规则过滤的关键字
-    private int isValid;//规则是否可用
-    private int appId;//规则所属的应用
+    private Integer id;
+
+    private String name;
+
+    private String describ;
+
+    private String keyword;
+
+    private Integer isvalid;
+
+    private Integer appid;
+
+    private Date createdate;
+
+    private Date updatedate;
+
+    private String createuser;
+
+    private String updateuser;
 
     @Override
     public String toString() {
         return "Rule{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", describ='" + describ + '\'' +
                 ", keyword='" + keyword + '\'' +
-                ", isValid=" + isValid +
-                ", appId=" + appId +
+                ", isvalid=" + isvalid +
+                ", appid=" + appid +
+                ", createdate=" + createdate +
+                ", updatedate=" + updatedate +
+                ", createuser='" + createuser + '\'' +
+                ", updateuser='" + updateuser + '\'' +
                 '}';
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -35,7 +52,15 @@ public class Rule {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name == null ? null : name.trim();
+    }
+
+    public String getDescrib() {
+        return describ;
+    }
+
+    public void setDescrib(String describ) {
+        this.describ = describ == null ? null : describ.trim();
     }
 
     public String getKeyword() {
@@ -43,22 +68,54 @@ public class Rule {
     }
 
     public void setKeyword(String keyword) {
-        this.keyword = keyword;
+        this.keyword = keyword == null ? null : keyword.trim();
     }
 
-    public int getIsValid() {
-        return isValid;
+    public Integer getIsvalid() {
+        return isvalid;
     }
 
-    public void setIsValid(int isValid) {
-        this.isValid = isValid;
+    public void setIsvalid(Integer isvalid) {
+        this.isvalid = isvalid;
     }
 
-    public int getAppId() {
-        return appId;
+    public Integer getAppid() {
+        return appid;
     }
 
-    public void setAppId(int appId) {
-        this.appId = appId;
+    public void setAppid(Integer appid) {
+        this.appid = appid;
+    }
+
+    public Date getCreatedate() {
+        return createdate;
+    }
+
+    public void setCreatedate(Date createdate) {
+        this.createdate = createdate;
+    }
+
+    public Date getUpdatedate() {
+        return updatedate;
+    }
+
+    public void setUpdatedate(Date updatedate) {
+        this.updatedate = updatedate;
+    }
+
+    public String getCreateuser() {
+        return createuser;
+    }
+
+    public void setCreateuser(String createuser) {
+        this.createuser = createuser == null ? null : createuser.trim();
+    }
+
+    public String getUpdateuser() {
+        return updateuser;
+    }
+
+    public void setUpdateuser(String updateuser) {
+        this.updateuser = updateuser == null ? null : updateuser.trim();
     }
 }

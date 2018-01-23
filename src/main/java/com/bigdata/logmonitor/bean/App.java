@@ -1,33 +1,49 @@
 package com.bigdata.logmonitor.bean;
 
+import java.util.Date;
 
-/**
- * 合法的采集应用的信息
- */
 public class App {
-    private int id;//应用编号
-    private String name;//应用名称
-    private int isOnline;//应用是否在线
-    private int typeId;//应用所属类别
-    private String userId;//应用的负责人，多个用户用逗号分开
+    private Integer id;
 
+    private String name;
+
+    private String describ;
+
+    private Integer isonline;
+
+    private Integer typeid;
+
+    private Date createdate;
+
+    private Date updateadate;
+
+    private String createuser;
+
+    private String updateuser;
+
+    private String userid;
 
     @Override
     public String toString() {
         return "App{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", isOnline=" + isOnline +
-                ", typeId=" + typeId +
-                ", userId='" + userId + '\'' +
+                ", describ='" + describ + '\'' +
+                ", isonline=" + isonline +
+                ", typeid=" + typeid +
+                ", createdate=" + createdate +
+                ", updateadate=" + updateadate +
+                ", createuser='" + createuser + '\'' +
+                ", updateuser='" + updateuser + '\'' +
+                ", userid='" + userid + '\'' +
                 '}';
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -36,30 +52,70 @@ public class App {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name == null ? null : name.trim();
     }
 
-    public int getIsOnline() {
-        return isOnline;
+    public String getDescrib() {
+        return describ;
     }
 
-    public void setIsOnline(int isOnline) {
-        this.isOnline = isOnline;
+    public void setDescrib(String describ) {
+        this.describ = describ == null ? null : describ.trim();
     }
 
-    public int getTypeId() {
-        return typeId;
+    public Integer getIsonline() {
+        return isonline;
     }
 
-    public void setTypeId(int typeId) {
-        this.typeId = typeId;
+    public void setIsonline(Integer isonline) {
+        this.isonline = isonline;
     }
 
-    public String getUserId() {
-        return userId;
+    public Integer getTypeid() {
+        return typeid;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setTypeid(Integer typeid) {
+        this.typeid = typeid;
+    }
+
+    public Date getCreatedate() {
+        return createdate;
+    }
+
+    public void setCreatedate(Date createdate) {
+        this.createdate = createdate;
+    }
+
+    public Date getUpdateadate() {
+        return updateadate;
+    }
+
+    public void setUpdateadate(Date updateadate) {
+        this.updateadate = updateadate;
+    }
+
+    public String getCreateuser() {
+        return createuser;
+    }
+
+    public void setCreateuser(String createuser) {
+        this.createuser = createuser == null ? null : createuser.trim();
+    }
+
+    public String getUpdateuser() {
+        return updateuser;
+    }
+
+    public void setUpdateuser(String updateuser) {
+        this.updateuser = updateuser == null ? null : updateuser.trim();
+    }
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid == null ? null : userid.trim();
     }
 }

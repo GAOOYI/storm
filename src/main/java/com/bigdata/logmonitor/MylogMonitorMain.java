@@ -1,8 +1,9 @@
 package com.bigdata.logmonitor;
 
 import com.bigdata.logmonitor.blot.FilterBolt;
+import com.bigdata.logmonitor.blot.NotifBolt;
+import com.bigdata.logmonitor.blot.SaveBolt;
 import com.bigdata.logmonitor.spout.RandomSpout;
-import com.bigdata.wordcount.MyCountBolt;
 import org.apache.storm.Config;
 import org.apache.storm.LocalCluster;
 import org.apache.storm.StormSubmitter;
@@ -22,12 +23,12 @@ public class MylogMonitorMain {
         topologyBuilder.setSpout("mysplot",new RandomSpout(),2);
         //设置blot
         topologyBuilder.setBolt("filerbolt",new FilterBolt(),2).shuffleGrouping("mysplot");
-        topologyBuilder.setBolt("mybolt2",new MyCountBolt(),4).fieldsGrouping("mybolt1",new Fields("word"));
+        topologyBuilder.setBolt("notifyBolt",new NotifBolt(),4).fieldsGrouping("filerbolt",new Fields("appId"));
+        topologyBuilder.setBolt("saveBolt",new SaveBolt(),4).shuffleGrouping("notifyBolt");
 
         //设置conf，指定work数量
         Config config = new Config();
         config.setNumWorkers(2);
-
 
         if(args.length > 0){
             //提交为集群模式

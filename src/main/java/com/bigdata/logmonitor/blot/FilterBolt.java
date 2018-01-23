@@ -44,11 +44,12 @@ public class FilterBolt extends BaseRichBolt{
             return;
         //对日志进行规制判定，看看是否触发规则
         if (Monitorhandler.trigger(message)){
+            System.out.println("FilterBolt发送数据"+message.toString());
             outputCollector.emit(new Values(message.getAppId(),message));
         }
 
-
-
+        //调用调度方法进行调度
+        Monitorhandler.scheduleLoad();
 
         //手动调用ack方法
         outputCollector.ack(tuple);

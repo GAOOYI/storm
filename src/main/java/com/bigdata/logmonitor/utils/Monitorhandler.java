@@ -3,7 +3,14 @@ package com.bigdata.logmonitor.utils;
 import com.bigdata.logmonitor.bean.*;
 import com.bigdata.logmonitor.mail.MailInfo;
 import com.bigdata.logmonitor.mail.MessageSender;
+import com.bigdata.logmonitor.service.AppService;
+import com.bigdata.logmonitor.service.RuleService;
+import com.bigdata.logmonitor.service.UserService;
+import org.apache.commons.lang3.time.DateUtils;
+import org.apache.log4j.Logger;
 import org.apache.storm.shade.org.apache.commons.lang.StringUtils;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import redis.clients.jedis.Jedis;
 
 import java.text.SimpleDateFormat;
@@ -13,11 +20,18 @@ import java.util.List;
 import java.util.Map;
 
 public class Monitorhandler {
+    //通过spring获得业务
+    private static ApplicationContext appCtx = null;
     //连接redis
     private static Jedis jedis;
     static {
-        jedis = new Jedis("127.0.0.1",6379);
+        //获取spring工厂
+        appCtx = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
+        //连接jedis
+        jedis = new Jedis("centos01",6379);
         jedis.del("record");
+        //加载数据
+        load();
     }
     //合法的用户，定义一个list，用来封装所有的应用信息
     private static List<App> applist;
@@ -27,6 +41,11 @@ public class Monitorhandler {
     private static Map<String,List<User>> userMap;
     //定义一个时间格式
     private  static  SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    //定时加载配置文件的标识
+    private static boolean reloaded = false;
+    //定时加载配置文件的标识
+    private static long nextReload = 0l;
+    private static Logger logger = Logger.getLogger(Monitorhandler.class);
 
 
     /**
@@ -38,7 +57,7 @@ public class Monitorhandler {
      */
     public static Message parser(String line) {
         //1$$$$$error: Caused by: java.lang.NoClassDefFoundError: com/starit/gejie/dao/SysNameDao
-        String[] split = line.split("//$//$//$//$");
+        String[] split = line.split("\\$\\$\\$\\$\\$");
         if (split.length != 2){
             return null;
         }
@@ -47,7 +66,7 @@ public class Monitorhandler {
         }
 
         //判断该条日志信息是否授权
-        if(appIdisValid(split[1].trim())){
+        if(appIdisValid(split[0].trim())){
             Message message = new Message();
             message.setAppId(split[0].trim());
             message.setLine(split[1].trim());
@@ -105,12 +124,41 @@ public class Monitorhandler {
      * 从数据库中加载所需的信息
      * 链接数据库，mybatis
      */
-    public static void load(){
-        if (applist == null){
+    public static synchronized void load(){
 
+        if (applist == null){
+            applist = appListLoad();
+        }
+        if (ruleMap == null){
+            ruleMap = ruleMapLoad();
+        }
+        if (userMap == null){
+            userMap = userMapLoad();
         }
 
+    }
 
+    /**
+     * 加载appList
+     */
+    public static List<App> appListLoad(){
+        AppService appService = (AppService) appCtx.getBean("appserviceImpl");
+        return appService.getAll();
+    }
+
+    /**
+     * 加载ruleMap
+     */
+    public static Map<String,List<Rule>> ruleMapLoad(){
+        RuleService ruleService = (RuleService) appCtx.getBean("ruleServiceImpl");
+        return ruleService.getRuleMap();
+    }
+    /**
+     * 加载userMap
+     */
+    public static Map<String,List<User>> userMapLoad(){
+        UserService userService = (UserService) appCtx.getBean("userServiceImpl");
+        return userService.getUserMap();
     }
 
     /**
@@ -174,7 +222,6 @@ public class Monitorhandler {
     private static List<User> getUserByappId(String appId) {
         //用过一个userMap获取到User
         return userMap.get(appId);
-
     }
 
     /**
@@ -184,5 +231,28 @@ public class Monitorhandler {
     public static void save(Record record) {
         jedis.lpush("record",record.toString());
     }
+
+
+    /**
+     * 设计重复加载方法
+     */
+    public static synchronized void reloadData(){
+        if (reloaded) {
+            long start = System.currentTimeMillis();
+            applist = appListLoad();
+            ruleMap = ruleMapLoad();
+            userMap = userMapLoad();
+            reloaded = false;
+            nextReload = 0l;
+            logger.info("配置文件reload完成，时间："+ sdf.format(new Date())  +" 耗时："+ (System.currentTimeMillis()-start));
+        }
+    }
+    public static void scheduleLoad(){
+        if (System.currentTimeMillis() == nextReload){
+            reloaded = true;
+            reloadData();
+        }
+    }
+
 
 }

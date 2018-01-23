@@ -1,14 +1,25 @@
 package com.bigdata.logmonitor.bean;
 
-/**
- * 用户
- */
+import java.util.Date;
+
 public class User {
-    private int id;//用户编号
-    private String name;//用户名称
-    private String mobile;//用户手机
-    private String email;//用户邮箱
-    private int isValid;//用户是否可用
+    private Long id;
+
+    private String name;
+
+    private String mobile;
+
+    private String email;
+
+    private Integer isvalid;
+
+    private Date createdate;
+
+    private Date updatedate;
+
+    private String createuser;
+
+    private String updateuser;
 
     @Override
     public String toString() {
@@ -17,15 +28,19 @@ public class User {
                 ", name='" + name + '\'' +
                 ", mobile='" + mobile + '\'' +
                 ", email='" + email + '\'' +
-                ", isValid=" + isValid +
+                ", isvalid=" + isvalid +
+                ", createdate=" + createdate +
+                ", updatedate=" + updatedate +
+                ", createuser='" + createuser + '\'' +
+                ", updateuser='" + updateuser + '\'' +
                 '}';
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -34,7 +49,7 @@ public class User {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name == null ? null : name.trim();
     }
 
     public String getMobile() {
@@ -42,7 +57,7 @@ public class User {
     }
 
     public void setMobile(String mobile) {
-        this.mobile = mobile;
+        this.mobile = mobile == null ? null : mobile.trim();
     }
 
     public String getEmail() {
@@ -50,14 +65,46 @@ public class User {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = email == null ? null : email.trim();
     }
 
-    public int getIsValid() {
-        return isValid;
+    public Integer getIsvalid() {
+        return isvalid;
     }
 
-    public void setIsValid(int isValid) {
-        this.isValid = isValid;
+    public void setIsvalid(Integer isvalid) {
+        this.isvalid = isvalid;
+    }
+
+    public Date getCreatedate() {
+        return createdate;
+    }
+
+    public void setCreatedate(Date createdate) {
+        this.createdate = createdate;
+    }
+
+    public Date getUpdatedate() {
+        return updatedate;
+    }
+
+    public void setUpdatedate(Date updatedate) {
+        this.updatedate = updatedate;
+    }
+
+    public String getCreateuser() {
+        return createuser;
+    }
+
+    public void setCreateuser(String createuser) {
+        this.createuser = createuser == null ? null : createuser.trim();
+    }
+
+    public String getUpdateuser() {
+        return updateuser;
+    }
+
+    public void setUpdateuser(String updateuser) {
+        this.updateuser = updateuser == null ? null : updateuser.trim();
     }
 }

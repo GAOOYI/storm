@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bigdata.logmonitor.dao.AppMapper" >
+  <resultMap id="BaseResultMap" type="com.bigdata.logmonitor.bean.App" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="describ" property="describ" jdbcType="VARCHAR" />
+    <result column="isOnline" property="isonline" jdbcType="INTEGER" />
+    <result column="typeId" property="typeid" jdbcType="INTEGER" />
+    <result column="createDate" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="updateaDate" property="updateadate" jdbcType="TIMESTAMP" />
+    <result column="createUser" property="createuser" jdbcType="VARCHAR" />
+    <result column="updateUser" property="updateuser" jdbcType="VARCHAR" />
+    <result column="userId" property="userid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, name, describ, isOnline, typeId, createDate, updateaDate, createUser, updateUser, 
+    userId
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.bigdata.logmonitor.bean.AppExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from log_monitor_app
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from log_monitor_app
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from log_monitor_app
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bigdata.logmonitor.bean.AppExample" >
+    delete from log_monitor_app
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bigdata.logmonitor.bean.App" >
+    insert into log_monitor_app (id, name, describ, 
+      isOnline, typeId, createDate, 
+      updateaDate, createUser, updateUser, 
+      userId)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{describ,jdbcType=VARCHAR}, 
+      #{isonline,jdbcType=INTEGER}, #{typeid,jdbcType=INTEGER}, #{createdate,jdbcType=TIMESTAMP}, 
+      #{updateadate,jdbcType=TIMESTAMP}, #{createuser,jdbcType=VARCHAR}, #{updateuser,jdbcType=VARCHAR}, 
+      #{userid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bigdata.logmonitor.bean.App" >
+    insert into log_monitor_app
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="describ != null" >
+        describ,
+      </if>
+      <if test="isonline != null" >
+        isOnline,
+      </if>
+      <if test="typeid != null" >
+        typeId,
+      </if>
+      <if test="createdate != null" >
+        createDate,
+      </if>
+      <if test="updateadate != null" >
+        updateaDate,
+      </if>
+      <if test="createuser != null" >
+        createUser,
+      </if>
+      <if test="updateuser != null" >
+        updateUser,
+      </if>
+      <if test="userid != null" >
+        userId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="describ != null" >
+        #{describ,jdbcType=VARCHAR},
+      </if>
+      <if test="isonline != null" >
+        #{isonline,jdbcType=INTEGER},
+      </if>
+      <if test="typeid != null" >
+        #{typeid,jdbcType=INTEGER},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateadate != null" >
+        #{updateadate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuser != null" >
+        #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null" >
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bigdata.logmonitor.bean.AppExample" resultType="java.lang.Integer" >
+    select count(*) from log_monitor_app
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update log_monitor_app
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.describ != null" >
+        describ = #{record.describ,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isonline != null" >
+        isOnline = #{record.isonline,jdbcType=INTEGER},
+      </if>
+      <if test="record.typeid != null" >
+        typeId = #{record.typeid,jdbcType=INTEGER},
+      </if>
+      <if test="record.createdate != null" >
+        createDate = #{record.createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateadate != null" >
+        updateaDate = #{record.updateadate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createuser != null" >
+        createUser = #{record.createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateuser != null" >
+        updateUser = #{record.updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userid != null" >
+        userId = #{record.userid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update log_monitor_app
+    set id = #{record.id,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      describ = #{record.describ,jdbcType=VARCHAR},
+      isOnline = #{record.isonline,jdbcType=INTEGER},
+      typeId = #{record.typeid,jdbcType=INTEGER},
+      createDate = #{record.createdate,jdbcType=TIMESTAMP},
+      updateaDate = #{record.updateadate,jdbcType=TIMESTAMP},
+      createUser = #{record.createuser,jdbcType=VARCHAR},
+      updateUser = #{record.updateuser,jdbcType=VARCHAR},
+      userId = #{record.userid,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bigdata.logmonitor.bean.App" >
+    update log_monitor_app
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="describ != null" >
+        describ = #{describ,jdbcType=VARCHAR},
+      </if>
+      <if test="isonline != null" >
+        isOnline = #{isonline,jdbcType=INTEGER},
+      </if>
+      <if test="typeid != null" >
+        typeId = #{typeid,jdbcType=INTEGER},
+      </if>
+      <if test="createdate != null" >
+        createDate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateadate != null" >
+        updateaDate = #{updateadate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuser != null" >
+        createUser = #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null" >
+        updateUser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        userId = #{userid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bigdata.logmonitor.bean.App" >
+    update log_monitor_app
+    set name = #{name,jdbcType=VARCHAR},
+      describ = #{describ,jdbcType=VARCHAR},
+      isOnline = #{isonline,jdbcType=INTEGER},
+      typeId = #{typeid,jdbcType=INTEGER},
+      createDate = #{createdate,jdbcType=TIMESTAMP},
+      updateaDate = #{updateadate,jdbcType=TIMESTAMP},
+      createUser = #{createuser,jdbcType=VARCHAR},
+      updateUser = #{updateuser,jdbcType=VARCHAR},
+      userId = #{userid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
